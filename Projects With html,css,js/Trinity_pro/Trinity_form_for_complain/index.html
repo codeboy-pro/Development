@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FixMyVillage - Report Issues</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1><span class="animated-icon">🚧</span>FixMyVillage</h1>
+        <p>Empowering Citizens | Reporting Local Issues</p>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Submit Your Complaint</h2>
+            <form id="complaintForm">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="issue">Type of Issue</label>
+                    <input type="text" id="issue" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="photo">Upload Photo</label>
+                    <input type="file" id="photo" accept="image/*">
+                </div>
+                <button type="submit">Submit Complaint</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 FixMyVillage | Built with ❤️ at Hackathon</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

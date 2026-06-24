@@ -1,0 +1,12 @@
+
+@import "tailwindcss";
+*{
+  font-family: 'Poppins', sans-serif;
+
+
+
+
+}
+::selection{
+  color:rgb(237, 159, 64)
+}

@@ -1,0 +1,77 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing:border-box;
+  font-family: gilroy;
+
+}
+
+html,
+body{
+height: 100%;
+width: 100%;
+
+}
+
+body{
+  background-color: #3c2727;
+  padding: 20px ;
+}
+#box{
+  height: 300px;
+  width: 300px;
+  background-color: #3c2727;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  position: absolute;
+  animation-name: anime;
+  animation-duration: 5s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;   
+  /* Normaly after the implimentation of animation the box retuns to its initial position but after appling it ,the box stays at the position where animation is ended up */
+
+  animation-iteration-count: infinite;
+/* animation applies infinite times */
+
+  /* animation-direction: alternate; */
+  /* firstly it goes forward and the retuens backward */
+
+  animation-timing-function: linear;
+  /* It controls the speed curve of an animation — how the animation progresses over time. */
+
+}
+
+img{
+  width: auto;
+  height:300px
+  
+
+}
+
+@keyframes anime {
+  0%{
+    top:0;
+    left:0;
+  }
+  25%{
+    top:0;
+    left:70%;
+  }
+  50%{
+     left: 70%;
+    top: 50%;
+  }
+  75%{
+    left: 0;
+    top:50%;
+  }
+  100%{
+   left:0;
+   top:0;
+  }
+ 
+}

@@ -1,0 +1,32 @@
+*{
+ background-color: #fff;
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+
+font-family: sans-serif;
+}
+body{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+div{
+  height: 300px;
+  width: 300px;
+
+
+  background-color: red;
+  border-radius: 80%;
+  background: linear-gradient(rgb(231, 231, 13),orange,rgb(228, 65, 92),purple,blue);
+  padding: 5px;
+}
+img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 80%;
+}

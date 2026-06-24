@@ -1,0 +1,108 @@
+/* Base Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Locomotive Scroll Styles */
+html.has-scroll-smooth {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+html.has-scroll-dragging {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.has-scroll-smooth body {
+    overflow: hidden;
+}
+
+.has-scroll-smooth [data-scroll-container] {
+    min-height: 100vh;
+    will-change: transform;
+}
+
+[data-scroll-section] {
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Calculator Container */
+.container {
+    transition: all 0.3s ease;
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+/* Guide Items */
+.guide-item {
+    color: white;
+    font-weight: 500;
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.4s ease-out;
+}
+
+.guide-item:nth-child(1) { transition-delay: 0.1s; }
+.guide-item:nth-child(2) { transition-delay: 0.2s; }
+.guide-item:nth-child(3) { transition-delay: 0.3s; }
+
+.underweight {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+}
+
+.normal {
+    background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+}
+
+.overweight {
+    background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+}
+
+/* Result colors */
+.result-underweight {
+    background-color: #0072ff;
+    color: white;
+}
+
+.result-normal {
+    background-color: #56ab2f;
+    color: white;
+}
+
+.result-overweight {
+    background-color: #ff416c;
+    color: white;
+}
+
+/* Animation Classes */
+.animate-in {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.guide-animate {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .container {
+        padding: 1.5rem;
+        min-width: auto;
+        width: 100%;
+    }
+    
+    [data-scroll-speed] {
+        transform: none !important;
+    }
+}

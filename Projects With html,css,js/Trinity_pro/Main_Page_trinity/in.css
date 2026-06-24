@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Varela+Round&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.nav_bar1 {
+  font-family: "Roboto", sans-serif;
+}
+.nav_bar1 ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+  height: 65px;
+  background-color: #240852;
+  color: #fff;
+}
+.nav_bar1 ul li {
+  padding: 0 12px;
+}
+.nav_bar1 a {
+  text-decoration: none;
+  color: white;
+  padding: 5px 15px;
+  position: relative;
+}
+.nav_bar1 a::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  background-color: rgb(245, 241, 241);
+  transform: scaleX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.nav_bar1 a:hover::after {
+  transform: scaleX(1);
+}
+
+.log_btn {
+  background-color: slateblue;
+  color: #fff;
+  height: 35px;
+  width: 70px;
+  border-radius: 10px;
+  border: none;
+  padding: 8px 2px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  float: right;
+}
+.log_btn:hover {
+  cursor: pointer;
+  background-color: #1f116c;
+}
+.btn1 {
+  padding: 5px;
+}
+
+.container{
+color: rgb(222, 9, 45);
+  display: flex;
+  justify-content: center;
+  
+  align-items: center;
+
+}

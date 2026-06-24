@@ -1,0 +1,168 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: gilroy;
+
+}
+
+html,
+body{
+  height: 100%;
+  width: 100%;
+
+}
+
+body{
+  color: #fff;
+background-color: #111;
+padding: 20px;
+
+}
+
+
+
+.gsap-block{
+  display: flex;
+  flex-direction: row;
+width: 100%;
+height: 100%;
+  padding: 20px;
+
+}
+
+.gsap-block .part1{
+display: flex;
+flex-direction: column;
+justify-content: center;
+gap: 10px;
+align-items: center;
+width: 30%;
+}
+
+.gsap-block .part2{
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+.page2{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+img{
+  width: 400px;
+  height: 400px;
+  /* rotate: 0deg; */
+}
+
+.part2 h1::after{
+content: 'Pradip';
+color: blue;
+}
+
+#page3{
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+
+}
+#page3 #box{
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
+  background-color: crimson;
+}
+
+#page4{
+  height: 100%;
+width: 100%;
+box-sizing: border-box;
+padding: 10px;
+}
+#page4 #box1{
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: rgb(206, 109, 17);
+  margin-bottom: 5px;
+}
+#page4 #box2{
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: rgb(226, 205, 143);
+   margin-bottom: 5px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+}
+#page4 #box3{
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: rgb(56, 151, 24);
+   margin-bottom: 5px;
+}
+
+#page4 #box2 img{
+  height: 70px;
+  width: 70px;
+opacity: 0;
+}
+
+
+#page5{
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px;
+}
+
+#page6{
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: start;
+align-items: center;
+padding: 10px;
+}
+
+#page7{
+height: 100%;
+width: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10px;
+}
+
+#page5 #bz1{
+  height: 300px;
+  width: 300px;
+background-color: crimson;
+border-radius: 10px;
+}
+#page6 #bz2{
+  height: 300px;
+  width: 300px;
+background-color: crimson;
+border-radius: 10px;
+}
+#page7 #bz3{
+  height: 300px;
+  width: 300px;
+background-color: crimson;
+border-radius: 10px;
+}

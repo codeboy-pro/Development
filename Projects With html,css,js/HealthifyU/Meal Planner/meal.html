@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF--8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthifyU - Smart Meal Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+ <link rel="stylesheet" href="/Meal Planner/meal.css">
+ 
+<link rel="shortcut icon"  href="/IMAGES/logo.svg" type="image/x-icon">
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <div>
+      <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="flex justify-between">
+            <div class="flex space-x-7">
+              <div>
+                <a href="/index.html" class="flex items-center py-4 px-2">
+                  <span class="font-semibold text-green-600 text-2xl">HealthifyU</span>
+                </a>
+              </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-1">
+              <a href="/index.html" class="py-4 px-2 text-gray-500 hover:text-green-600 transition duration-300">Home</a>
+              <a href="/BMI CALCULATOR/bmi1.html" class="py-4 px-2 text-gray-500 hover:text-green-600 transition duration-300">BMI Calculator</a>
+              <a href="/MENTAL HEALTH/Mental.html" class="py-4 px-2 text-gray-500 hover:text-green-600 transition duration-300">Mental Health</a>
+              <a href="/Meal Planner/meal.html" class="py-4 px-2 text-green-600 border-b-4 border-green-600 font-semibold">Meal Planner</a>
+              <a href="/AI assistent/ai.html" class="py-4 px-2 text-gray-500 hover:text-green-600 transition duration-300">AI Assistant</a>
+              <a href="#" class="py-4 px-2 text-gray-500 hover:text-green-600 transition duration-300">Emergency</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="flex h-screen">
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-8">
+            <!-- Header -->
+            <div class="mb-8 animated-element">
+              <h1 class="text-3xl font-bold text-gray-800 mb-2 flex justify-center">
+                Smart Meal Planner
+              </h1>
+              <p class="text-gray-600 flex justify-center">
+                Discover delicious recipes tailored for you
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+              <!-- Left Panel - Filters -->
+              <div class="lg:col-span-1 space-y-6">
+                <!-- Your Pantry -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm animated-element">
+                  <div class="flex items-center mb-4">
+                    <span class="text-lg font-semibold text-gray-800">🥫 Your Pantry</span>
+                  </div>
+                  <div class="mb-4">
+                    <input type="text" placeholder="Add ingredient..." class="w-full p-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm" id="ingredientInput" onkeypress="handleIngredientAdd(event)" />
+                  </div>
+                  <div id="pantryItems" class="space-y-2">
+                    <!-- Initial Pantry Items -->
+                    <div class="pantry-item flex items-center justify-between p-2 rounded-lg">
+                      <span class="text-sm text-gray-700">🥩 chicken breast</span>
+                      <button class="text-red-500 hover:text-red-700 text-sm" onclick="removeIngredient(this)">×</button>
+                    </div>
+                    <div class="pantry-item flex items-center justify-between p-2 rounded-lg">
+                      <span class="text-sm text-gray-700">🥚 eggs</span>
+                      <button class="text-red-500 hover:text-red-700 text-sm" onclick="removeIngredient(this)">×</button>
+                    </div>
+                    <div class="pantry-item flex items-center justify-between p-2 rounded-lg">
+                      <span class="text-sm text-gray-700">🥬 spinach</span>
+                      <button class="text-red-500 hover:text-red-700 text-sm" onclick="removeIngredient(this)">×</button>
+                    </div>
+                    <div class="pantry-item flex items-center justify-between p-2 rounded-lg">
+                      <span class="text-sm text-gray-700">🍅 tomatoes</span>
+                      <button class="text-red-500 hover:text-red-700 text-sm" onclick="removeIngredient(this)">×</button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Meal Type Filter -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm animated-element">
+                  <div class="flex items-center mb-4">
+                    <span class="text-lg font-semibold text-gray-800">🍽️ Meal Type</span>
+                  </div>
+                  <div class="space-y-2">
+                    <button class="meal-type-btn w-full p-3 rounded-xl text-left transition-all active" onclick="selectMealType(this, 'all')">
+                      <span class="text-sm font-medium">🍽️ All</span>
+                    </button>
+                    <button class="meal-type-btn w-full p-3 rounded-xl text-left transition-all hover:bg-gray-50" onclick="selectMealType(this, 'breakfast')">
+                      <span class="text-sm font-medium">🌅 Breakfast</span>
+                    </button>
+                    <button class="meal-type-btn w-full p-3 rounded-xl text-left transition-all hover:bg-gray-50" onclick="selectMealType(this, 'lunch')">
+                      <span class="text-sm font-medium">🌞 Lunch</span>
+                    </button>
+                    <button class="meal-type-btn w-full p-3 rounded-xl text-left transition-all hover:bg-gray-50" onclick="selectMealType(this, 'dinner')">
+                      <span class="text-sm font-medium">🌙 Dinner</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Panel - Recipes -->
+              <div class="lg:col-span-3">
+                <!-- Search and Generate -->
+                <div class="mb-6 flex flex-col sm:flex-row gap-4 animated-element">
+                  <div class="flex-1">
+                    <input type="text" placeholder="Search for recipes, tags, or ingredients..." class="search-input w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="searchInput" oninput="filterRecipes()" />
+                  </div>
+                  <button class="generate-btn px-6 py-4 text-white rounded-xl font-medium whitespace-nowrap" onclick="generateAIRecipe()">
+                    ✨ Generate AI Recipe
+                  </button>
+                </div>
+
+                <!-- Recipe Suggestions Header -->
+                <div class="mb-6 animated-element">
+                  <div class="flex items-center justify-between">
+                    <h2 class="text-xl font-semibold text-gray-800">
+                      Recipe Suggestions
+                    </h2>
+                    <span class="text-sm text-gray-500" id="recipeCount">Showing 3 recipes</span>
+                  </div>
+                </div>
+
+                <!-- Recipe Grid -->
+                <div id="recipeGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <!-- Mediterranean Quinoa Bowl -->
+                  <div class="recipe-card bg-white rounded-2xl overflow-hidden shadow-sm" data-meal-type="lunch" data-difficulty="easy">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=200&fit=crop" alt="Mediterranean Quinoa Bowl" class="w-full h-48 object-cover" />
+                      <div class="absolute top-4 left-4">
+                        <span class="difficulty-easy text-white text-xs font-medium px-2 py-1 rounded-full">Easy</span>
+                      </div>
+                      <button class="favorite-btn absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors" onclick="toggleFavorite(this)">
+                        <span class="text-gray-400">♡</span>
+                      </button>
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                        Mediterranean Quinoa Bowl
+                      </h3>
+                      <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                        <span>⏱️ 25m</span><span>👥 2 servings</span><span>🔥 350 kcal</span>
+                      </div>
+                      <div class="flex flex-wrap gap-1 mb-4">
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Healthy</span>
+                        <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">Vegetarian</span>
+                      </div>
+                      <button class="view-recipe-btn w-full bg-blue-500 text-white py-2 rounded-xl hover:bg-blue-600 transition-colors">
+                        View Recipe
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Honey Garlic Chicken Stir Fry -->
+                  <div class="recipe-card bg-white rounded-2xl overflow-hidden shadow-sm" data-meal-type="dinner" data-difficulty="medium">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=200&fit=crop" alt="Honey Garlic Chicken Stir Fry" class="w-full h-48 object-cover" />
+                      <div class="absolute top-4 left-4">
+                        <span class="difficulty-medium text-white text-xs font-medium px-2 py-1 rounded-full">Medium</span>
+                      </div>
+                      <button class="favorite-btn absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors" onclick="toggleFavorite(this)">
+                        <span class="text-red-500">♥</span>
+                      </button>
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                        Honey Garlic Chicken Stir Fry
+                      </h3>
+                      <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                        <span>⏱️ 20m</span><span>👥 3 servings</span><span>🔥 420 kcal</span>
+                      </div>
+                      <div class="flex flex-wrap gap-1 mb-4">
+                        <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">Quick</span>
+                        <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full">High Protein</span>
+                      </div>
+                      <button class="view-recipe-btn w-full bg-blue-500 text-white py-2 rounded-xl hover:bg-blue-600 transition-colors">
+                        View Recipe
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Avocado Toast with Egg -->
+                  <div class="recipe-card bg-white rounded-2xl overflow-hidden shadow-sm" data-meal-type="breakfast" data-difficulty="easy">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=200&fit=crop" alt="Avocado Toast with Egg" class="w-full h-48 object-cover" />
+                      <div class="absolute top-4 left-4">
+                        <span class="difficulty-easy text-white text-xs font-medium px-2 py-1 rounded-full">Easy</span>
+                      </div>
+                      <button class="favorite-btn absolute top-4 right-4 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors" onclick="toggleFavorite(this)">
+                        <span class="text-gray-400">♡</span>
+                      </button>
+                    </div>
+                    <div class="p-6">
+                      <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                        Avocado Toast with Egg
+                      </h3>
+                      <div class="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                        <span>⏱️ 10m</span><span>👥 1 serving</span><span>🔥 280 kcal</span>
+                      </div>
+                      <div class="flex flex-wrap gap-1 mb-4">
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full">Healthy</span>
+                        <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full">Breakfast</span>
+                      </div>
+                      <button class="view-recipe-btn w-full bg-blue-500 text-white py-2 rounded-xl hover:bg-blue-600 transition-colors">
+                        View Recipe
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-8 animated-element">
+                  <button class="load-more-btn px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors" onclick="loadMoreRecipes()">
+                    Load More Recipes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  <script src="meal.js"></script>
+  </body>
+</html>

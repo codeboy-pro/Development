@@ -1,0 +1,36 @@
+*{
+ background-color: #fff;
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+
+
+}
+body{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+button{
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 5px;
+  padding: 12px 20px;
+  margin: 50px;
+  border: none;
+  color: #fff;
+  background-color: lightseagreen;
+  cursor: pointer;
+transition: all ease 0.5s;
+
+}
+
+
+button:hover{
+  box-shadow: 5px 5px 0px black;
+
+}

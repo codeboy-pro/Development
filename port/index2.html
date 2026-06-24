@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pradip Maity - 3D Interactive Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Exo 2', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            overflow: hidden;
+        }
+        #info-panel {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90vw;
+            max-width: 600px;
+            max-height: 80vh;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 2rem;
+            color: white;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+            z-index: 100;
+        }
+        #info-panel.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .nav-menu {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            z-index: 50;
+        }
+        .nav-button {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .nav-button.ai-button {
+            border-color: #a855f7;
+            color: #d8b4fe;
+        }
+        .intro-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            transition: opacity 1s ease;
+        }
+        .loader, .ai-loader {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-left-color: #ffffff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        .ai-loader {
+             width: 30px;
+             height: 30px;
+             margin: 1rem auto;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="intro-overlay">
+        <h1 class="text-4xl md:text-6xl font-black uppercase tracking-widest mb-4">Pradip Maity</h1>
+        <p class="text-lg text-gray-400 mb-8">Initializing Portfolio System...</p>
+        <div class="loader"></div>
+    </div>
+
+    <nav class="nav-menu">
+        <button class="nav-button" data-target="sun">Home</button>
+        <button class="nav-button" data-target="about">About</button>
+        <button class="nav-button" data-target="skills">Skills</button>
+        <button class="nav-button" data-target="projects">Projects</button>
+        <button class="nav-button" data-target="contact">Contact</button>
+        <button class="nav-button ai-button" data-target="ai_assistant">✨ AI Assistant</button>
+    </nav>
+    
+    <div id="info-panel">
+        <button id="close-panel" class="absolute top-4 right-4 text-2xl">&times;</button>
+        <div id="info-content" class="overflow-y-auto max-h-[calc(80vh-4rem)]"></div>
+    </div>
+
+    <script>
+        // --- Scene Setup ---
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // --- Lighting ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xffffff, 1.5);
+        scene.add(pointLight);
+
+        // --- Starfield ---
+        const starGeometry = new THREE.BufferGeometry();
+        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1 });
+        const starVertices = [];
+        for (let i = 0; i < 10000; i++) {
+            const x = (Math.random() - 0.5) * 2000;
+            const y = (Math.random() - 0.5) * 2000;
+            const z = (Math.random() - 0.5) * 2000;
+            starVertices.push(x, y, z);
+        }
+        starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+        const stars = new THREE.Points(starGeometry, starMaterial);
+        scene.add(stars);
+
+        // --- Celestial Objects ---
+        const objects = {};
+        const textureLoader = new THREE.TextureLoader();
+
+        // Sun (Home)
+        const sunGeometry = new THREE.SphereGeometry(5, 32, 32);
+        const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffcc33, wireframe: true });
+        objects.sun = new THREE.Mesh(sunGeometry, sunMaterial);
+        objects.sun.name = 'sun';
+        scene.add(objects.sun);
+
+        // Planet Data
+        const planetData = [
+            { name: 'about', color: 0x00aaff, distance: 15, size: 1.5 },
+            { name: 'skills', color: 0xff4400, distance: 25, size: 2 },
+            { name: 'projects', color: 0x00ff88, distance: 40, size: 2.5 },
+            { name: 'contact', color: 0xff00ff, distance: 55, size: 1.2 },
+        ];
+
+        planetData.forEach(data => {
+            const planetGroup = new THREE.Group();
+            const geometry = new THREE.SphereGeometry(data.size, 32, 32);
+            const material = new THREE.MeshStandardMaterial({ color: data.color, roughness: 0.8 });
+            const planet = new THREE.Mesh(geometry, material);
+            planet.name = data.name;
+            planetGroup.add(planet);
+
+            const orbitGeometry = new THREE.RingGeometry(data.distance - 0.1, data.distance + 0.1, 128);
+            const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, opacity: 0.2, transparent: true });
+            const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
+            orbit.rotation.x = Math.PI / 2;
+            scene.add(orbit);
+
+            objects[data.name] = planetGroup;
+            scene.add(planetGroup);
+        });
+
+        // AI Assistant Satellite
+        const aiAssistantGroup = new THREE.Group();
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 2), new THREE.MeshStandardMaterial({color: 0xcccccc}));
+        const panel1 = new THREE.Mesh(new THREE.BoxGeometry(3, 0.1, 1.5), new THREE.MeshStandardMaterial({color: 0x4a90e2}));
+        const panel2 = panel1.clone();
+        panel1.position.x = 2;
+        panel2.position.x = -2;
+        aiAssistantGroup.add(body, panel1, panel2);
+        aiAssistantGroup.name = 'ai_assistant';
+        const aiOrbitDistance = 32;
+        const aiOrbitGeometry = new THREE.RingGeometry(aiOrbitDistance - 0.1, aiOrbitDistance + 0.1, 128);
+        const aiOrbitMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide, opacity: 0.4, transparent: true });
+        const aiOrbit = new THREE.Mesh(aiOrbitGeometry, aiOrbitMaterial);
+        aiOrbit.rotation.x = Math.PI / 2;
+        scene.add(aiOrbit);
+        objects.ai_assistant = aiAssistantGroup;
+        scene.add(aiAssistantGroup);
+
+
+        camera.position.z = 70;
+        camera.position.y = 20;
+        camera.lookAt(scene.position);
+
+        // --- Info Panel Content ---
+        const infoContent = {
+            about: `
+                <h2 class="text-3xl font-bold text-cyan-300 mb-4">About Me</h2>
+                <p>I am a passionate Information Technology student with a strong foundation in computer science and a keen interest in creating innovative solutions. I thrive on solving complex problems and enjoy building efficient, scalable, and user-friendly applications.</p>
+            `,
+            skills: `
+                <h2 class="text-3xl font-bold text-orange-400 mb-4">Skills</h2>
+                <ul class="list-disc list-inside grid grid-cols-2 gap-2">
+                    <li>C/C++</li>
+                    <li>Python</li>
+                    <li>Java</li>
+                    <li>HTML/CSS/JS</li>
+                    <li>React</li>
+                    <li>Tailwind CSS</li>
+                    <li>SQL</li>
+                    <li>Three.js</li>
+                </ul>
+            `,
+            projects: `
+                <h2 class="text-3xl font-bold text-green-400 mb-4">Projects</h2>
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-bold">E-commerce Platform</h3>
+                        <p class="text-sm text-gray-400">A full-stack MERN application with user authentication and shopping cart functionality.</p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">Real-Time Task Manager</h3>
+                        <p class="text-sm text-gray-400">A collaborative task management app using React and Firebase.</p>
+                    </div>
+                </div>
+            `,
+            contact: `
+                <h2 class="text-3xl font-bold text-fuchsia-400 mb-4">Contact</h2>
+                <p>You can reach me via email at:</p>
+                <a href="mailto:pradip.maity@example.com" class="text-cyan-400 hover:underline">pradip.maity@example.com</a>
+            `,
+            ai_assistant: `
+                <h2 class="text-3xl font-bold text-purple-400 mb-4">✨ AI Career Assistant</h2>
+                <p class="text-sm text-gray-300 mb-4">Ask me anything about Pradip's skills, suggest a project idea, or get career advice!</p>
+                <textarea id="ai-prompt" rows="3" class="w-full bg-gray-900 border border-purple-400 rounded p-2 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="e.g., 'Summarize Pradip's skills for a recruiter.'"></textarea>
+                <button id="ai-submit" class="w-full mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Ask AI</button>
+                <div id="ai-response-container" class="mt-4 p-4 bg-gray-900/50 rounded-lg min-h-[100px]"></div>
+            `
+        };
+
+        // --- Interaction ---
+        const navButtons = document.querySelectorAll('.nav-button');
+        const infoPanel = document.getElementById('info-panel');
+        const infoContentDiv = document.getElementById('info-content');
+        const closePanelBtn = document.getElementById('close-panel');
+
+        function flyToTarget(targetName) {
+            const targetObject = objects[targetName];
+            let targetPosition = new THREE.Vector3();
+            
+            if(targetName === 'sun') {
+                targetPosition.set(0, 20, 70);
+            } else {
+                targetObject.getWorldPosition(targetPosition);
+                let radius = 5; // default radius
+                if(targetObject.children.length > 0 && targetObject.children[0].geometry) {
+                    radius = targetObject.children[0].geometry.parameters.radius || (targetObject.children[0].geometry.parameters.width / 2) || 5;
+                }
+                targetPosition.z += radius * 5;
+                targetPosition.y += 5;
+            }
+
+            gsap.to(camera.position, {
+                duration: 2,
+                x: targetPosition.x,
+                y: targetPosition.y,
+                z: targetPosition.z,
+                ease: 'power3.inOut',
+                onUpdate: () => camera.lookAt(targetObject.position)
+            });
+
+            setTimeout(() => {
+                infoContentDiv.innerHTML = infoContent[targetName];
+                infoPanel.classList.add('visible');
+                if (targetName === 'ai_assistant') {
+                    document.getElementById('ai-submit').addEventListener('click', handleAIAssistant);
+                }
+            }, 1500);
+        }
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                infoPanel.classList.remove('visible');
+                const targetName = button.dataset.target;
+                flyToTarget(targetName);
+            });
+        });
+
+        closePanelBtn.addEventListener('click', () => {
+            infoPanel.classList.remove('visible');
+        });
+
+        // --- Gemini API Integration ---
+        async function handleAIAssistant() {
+            const promptInput = document.getElementById('ai-prompt');
+            const responseContainer = document.getElementById('ai-response-container');
+            const submitButton = document.getElementById('ai-submit');
+            const userPrompt = promptInput.value;
+
+            if (!userPrompt) {
+                responseContainer.innerText = "Please enter a question or prompt.";
+                return;
+            }
+
+            responseContainer.innerHTML = '<div class="ai-loader"></div>';
+            submitButton.disabled = true;
+
+            const fullPrompt = `You are an AI assistant for Pradip Maity's portfolio. Pradip is an Information Technology student with skills in C/C++, Python, Java, HTML, CSS, JavaScript, React, Tailwind CSS, and SQL. Based on this, answer the following user query: "${userPrompt}"`;
+            
+            try {
+                let chatHistory = [{ role: "user", parts: [{ text: fullPrompt }] }];
+                const payload = { contents: chatHistory };
+                const apiKey = ""; // API key will be provided by the environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API request failed with status ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    responseContainer.innerText = text;
+                } else {
+                    throw new Error("Invalid response structure from API.");
+                }
+
+            } catch (error) {
+                console.error("Gemini API Error:", error);
+                responseContainer.innerText = "Sorry, I couldn't get a response. Please try again later.";
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+
+
+        // --- Animation Loop ---
+        let clock = new THREE.Clock();
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            planetData.forEach(data => {
+                const planetGroup = objects[data.name];
+                planetGroup.position.x = Math.sin(elapsedTime * 0.1 / data.size) * data.distance;
+                planetGroup.position.z = Math.cos(elapsedTime * 0.1 / data.size) * data.distance;
+                planetGroup.children[0].rotation.y += 0.005;
+            });
+
+            // Animate AI satellite
+            const aiGroup = objects.ai_assistant;
+            aiGroup.position.x = Math.sin(elapsedTime * 0.05) * aiOrbitDistance;
+            aiGroup.position.z = Math.cos(elapsedTime * 0.05) * aiOrbitDistance;
+            aiGroup.rotation.y += 0.01;
+            
+            stars.rotation.y -= 0.0001;
+            renderer.render(scene, camera);
+        }
+        
+        // --- Window Resize ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // --- Intro Loader ---
+        window.addEventListener('load', () => {
+            const introOverlay = document.getElementById('intro-overlay');
+            setTimeout(() => {
+                introOverlay.style.opacity = '0';
+                setTimeout(() => introOverlay.style.display = 'none', 1000);
+                animate();
+            }, 2000);
+        });
+
+    </script>
+</body>
+</html>

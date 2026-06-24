@@ -1,0 +1,28 @@
+
+        /* Breathing Animation */
+        .breathing-circle {
+            animation: breathe 6s infinite ease-in-out;
+        }
+        
+        @keyframes breathe {
+            0% { transform: scale(0.9); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(0.9); }
+        }
+        
+        /* Mood Tracker Colors */
+        .mood-1 { background-color: #ef4444; } /* Very Bad */
+        .mood-2 { background-color: #f97316; } /* Bad */
+        .mood-3 { background-color: #f59e0b; } /* Okay */
+        .mood-4 { background-color: #10b981; } /* Good */
+        .mood-5 { background-color: #3b82f6; } /* Great */
+        
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }

@@ -1,0 +1,28 @@
+body{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+font-family: sans-serif;
+background-color: #000;
+/* color: #fff; */
+
+}
+h1{
+  font-size:100px;
+  font-weight: 900;
+  text-align: center;
+background:linear-gradient(to right,rgba(240, 44, 44, 0.795),blue);
+color:transparent;
+-webkit-background-clip: text;
+text-shadow: 0 0 60px rgba(255, 0, 0, 0.457);
+animation: anime 1s infinite alternate;
+}
+
+@keyframes anime{
+  100%{
+text-shadow: 0 0 60px rgba(38, 0, 255, 0.457);
+
+  }
+}

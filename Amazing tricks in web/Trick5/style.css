@@ -1,0 +1,26 @@
+*{
+ background-color: #fff;
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+
+font-family: sans-serif;
+}
+body{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+h1{
+  font-size: 50px;
+  font-weight: 900;
+background-image:url(/Trick5/colorful.jpg) ;
+background-position: center;
+background-clip: text;
+-webkit-background-clip: text;
+color: transparent;
+}
